@@ -1,12 +1,12 @@
 {
   "$comment": "Market metadata, bilingual categories/labels, and optional per-plugin overrides. Package names must match entries in plugins.txt (or packages discovered from Git repos).",
   "title": {
-    "en": "Mindeck Curated Plugins",
-    "zh": "Mindeck 精选插件市场"
+    "en": "Mindeck Official",
+    "zh": "Mindeck Official"
   },
   "description": {
-    "en": "Curated plugins for Mindeck covering workbench, context insights, web search, memory, interactive UI, and remote access.",
-    "zh": "面向 Mindeck 的精选插件市场，覆盖工作台、上下文洞察、联网搜索、长期记忆、交互式 UI 与远程访问。"
+    "en": "Official curated plugins for Mindeck covering workbench, context insights, web search, memory, interactive UI, and remote access.",
+    "zh": "Mindeck 官方维护的插件索引，覆盖工作台、上下文洞察、联网搜索、长期记忆、交互式 UI 与远程访问。"
   },
   "categories": {
     "workbench": {
