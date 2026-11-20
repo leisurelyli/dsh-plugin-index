@@ -118,7 +118,7 @@ function parsePaxHeaders(buf) {
  * leading directory segment (npm's `package/`), excluding `node_modules`, and
  * enforcing `maxUnpackedBytes`.
  */
-export function unpackTgz(gzBytes, label, maxUnpackedBytes = 64 * 1024 * 1024) {
+export function unpackTgz(gzBytes, label, maxUnpackedBytes = 256 * 1024 * 1024) {
   let tar
   try {
     tar = gunzipSync(gzBytes, { maxOutputLength: maxUnpackedBytes + 1024 * 1024 })
@@ -191,7 +191,15 @@ export function unpackTgz(gzBytes, label, maxUnpackedBytes = 64 * 1024 * 1024) {
       throw new Error(`${label}: unpacked tarball exceeds ${maxUnpackedBytes} bytes`)
     }
 
-    // Copy slice so the large tar buffer can be GC'd once unpacked
+    // Keep metadata-sized files in memory and skip copying giant JS/WASM assets that cannot be read as text/icons
+    const sizeBytes = content.length
+    if (sizeBytes > MAX_TEXT_FILE_BYTES) {
+      files.set(relPath, {
+        size: sizeBytes,
+        read: () => Promise.reject(new Error(`${relPath} exceeds ${MAX_TEXT_FILE_BYTES} bytes`)),
+      })
+      continue
+    }
     const copied = Buffer.from(content)
     files.set(relPath, {
       size: copied.length,

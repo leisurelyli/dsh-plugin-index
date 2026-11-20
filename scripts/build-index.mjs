@@ -38,7 +38,8 @@ const execFileAsync = promisify(execFile)
 export const PUBLIC_NPM_REGISTRY = 'https://registry.npmjs.org/'
 const VALIDATION_URL = 'https://index.invalid/index.json'
 const CACHE_VERSION = 1
-const MAX_TARBALL_BYTES = 64 * 1024 * 1024
+const MAX_TARBALL_BYTES = 128 * 1024 * 1024
+const MAX_UNPACKED_BYTES = 256 * 1024 * 1024
 const MAX_ICON_BYTES = 256 * 1024
 const GENERATED_ICON_RE = /^[0-9a-f]{16}\.(?:svg|png|jpg|jpeg|webp)$/u
 const LANGUAGE_ID_RE = /^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$/u
@@ -495,20 +496,31 @@ async function fetchNpmTarball(name, version, dist, timeoutMs) {
   if (typeof dist?.tarball !== 'string' || typeof dist.integrity !== 'string') {
     throw new Error(`${label}: registry lists no tarball with integrity`)
   }
-  const res = await fetch(dist.tarball, { signal: AbortSignal.timeout(timeoutMs) })
-  if (!res.ok) throw new Error(`${label}: tarball answered HTTP ${res.status}`)
-  const chunks = []
-  let total = 0
-  for await (const chunk of res.body) {
-    total += chunk.length
-    if (total > MAX_TARBALL_BYTES) throw new Error(`${label}: tarball exceeds ${MAX_TARBALL_BYTES} bytes`)
-    chunks.push(chunk)
+  let bytes
+  let lastErr
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(dist.tarball, { signal: AbortSignal.timeout(timeoutMs) })
+      if (!res.ok) throw new Error(`${label}: tarball answered HTTP ${res.status}`)
+      const chunks = []
+      let total = 0
+      for await (const chunk of res.body) {
+        total += chunk.length
+        if (total > MAX_TARBALL_BYTES) throw new Error(`${label}: tarball exceeds ${MAX_TARBALL_BYTES} bytes`)
+        chunks.push(chunk)
+      }
+      bytes = Buffer.concat(chunks)
+      break
+    } catch (err) {
+      lastErr = err
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)))
+    }
   }
-  const bytes = Buffer.concat(chunks)
+  if (!bytes) throw lastErr
   if (!matchesIntegrity(bytes, dist.integrity)) {
     throw new Error(`${label}: tarball does not match its registry integrity`)
   }
-  const files = unpackTgz(bytes, label, MAX_TARBALL_BYTES)
+  const files = unpackTgz(bytes, label, MAX_UNPACKED_BYTES)
   const manifest = await readManifestFromFiles(files, '')
   if (manifest?.name !== name || manifest.version !== version) {
     throw new Error(`${label}: tarball package.json does not name ${label}`)
@@ -943,7 +955,7 @@ function parseArgs(argv) {
     recordRegistry: undefined,
     inlineIconBytes: 16384,
     concurrency: 4,
-    timeoutMs: 60000,
+    timeoutMs: 120000,
     html: true,
     help: false,
   }

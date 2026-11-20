@@ -20,6 +20,18 @@
         "en": "Content & Media",
         "zh": "内容创作"
       }
+    },
+    "browser": {
+      "title": {
+        "en": "Browser & Automation",
+        "zh": "浏览器与自动化"
+      }
+    },
+    "office": {
+      "title": {
+        "en": "Office & Docs",
+        "zh": "办公与文档"
+      }
     }
   },
   "labels": {
@@ -57,6 +69,30 @@
       "description": {
         "en": "Capture an idea in one sentence and generate complete scripts, headlines, video covers, illustrations, and storyboard line art.",
         "zh": "一句话记灵感，一键成稿：口播脚本、标题、视频封面、配图与黑白线稿分镜。"
+      }
+    },
+    "dsh-ego-browser": {
+      "category": "browser",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "Ego Browser",
+        "zh": "Agent 浏览器 (Ego Browser)"
+      },
+      "description": {
+        "en": "Agent browser automation with 34 structured tools, built-in ego-lite runtime, live sidebar viewport with interactive mouse control, download capture, CAPTCHA handoff, and Chrome session import.",
+        "zh": "Agent 浏览器：将浏览器自动化封装为 34 个结构化工具，内置 ego-lite 运行时；右侧栏实时观察窗（实时画面、鼠标交互、下载捕获与人机验证提醒），支持 Chrome 登录态导入。"
+      }
+    },
+    "dsh-univer-office": {
+      "category": "office",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "Univer Office",
+        "zh": "Univer 办公套件"
+      },
+      "description": {
+        "en": "Integrated Univer spreadsheets & documents workspace with bundled gateway and viewer: inline previews, live floating windows, and session-end review actions.",
+        "zh": "集成 Univer 表格与文档协同套件，内置预览网关与查看器：支持对话内联预览、悬浮协作窗口与会话结束审阅操作。"
       }
     }
   }

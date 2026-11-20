@@ -27,3 +27,9 @@ dsh-better-sidebar
 
 # Content & Media / 内容创作
 dsh-media-desk
+
+# Browser & Automation / 浏览器与自动化
+dsh-ego-browser
+
+# Office & Docs / 办公与文档
+dsh-univer-office
