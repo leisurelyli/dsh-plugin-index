@@ -26,4 +26,4 @@
 dsh-better-sidebar
 
 # Content & Media / 内容创作
-dsh-plugin-gzh-studio
+dsh-media-desk

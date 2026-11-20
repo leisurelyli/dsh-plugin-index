@@ -47,16 +47,16 @@
       "category": "workbench",
       "labels": ["curated", "verified", "dsh-0.2"]
     },
-    "dsh-plugin-gzh-studio": {
+    "dsh-media-desk": {
       "category": "content",
       "labels": ["curated", "verified", "dsh-0.2"],
       "title": {
-        "en": "GZH Studio",
-        "zh": "新媒体内容工作台 (GZH Studio)"
+        "en": "Media Desk",
+        "zh": "内容创作台 (Media Desk)"
       },
       "description": {
-        "en": "New-media content workbench: compliance checks across 21 content types, per-slide image generation with version history, mobile preview, WeChat Official Account draft push, and video preview.",
-        "zh": "新媒体内容工作台：21 条内容类型的合规检查、逐张出图与版本留存、手机宽度预览、推公众号草稿与视频成片预览。"
+        "en": "Capture an idea in one sentence and generate complete scripts, headlines, video covers, illustrations, and storyboard line art.",
+        "zh": "一句话记灵感，一键成稿：口播脚本、标题、视频封面、配图与黑白线稿分镜。"
       }
     }
   }
