@@ -1,0 +1,18 @@
+{
+  "name": "dsh-plugin-index",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Curated DSH (DeepSeek Harness) format-1 plugin market index with standalone generator, validator, static catalog, and local preview server.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build-index.mjs",
+    "build:cn": "node scripts/build-index.mjs --registry https://registry.npmmirror.com/ --no-record-registry",
+    "validate": "node scripts/validate-index.mjs",
+    "serve": "node scripts/serve.mjs",
+    "test": "node --test tests/index.test.mjs"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,41 @@
+# Curated DSH Plugin Index — Source List
+# 精选 DSH 插件索引 — 插件来源清单
+#
+# Format / 格式说明:
+#   - One source per line; blank lines and `#` comments are ignored.
+#   - 每行填写一个插件来源；空行和以 `#` 开头的注释行会被忽略。
+#   - Output plugin order matches the order in this file.
+#   - 生成的 index.json 默认排序与本文件顺序一致。
+#
+# How to add your own plugins / 如何添加自定义插件:
+#   1. Unscoped npm package (公开 npm 包):
+#        dsh-my-plugin
+#   2. Scoped npm package (带作用域的 npm 包):
+#        @your-scope/dsh-my-plugin
+#   3. Git repository (HTTPS Git 仓库，自动发现根目录或 monorepo 中的 dsh.bundle 包，支持 release tag 与默认分支):
+#        https://github.com/your-org/your-dsh-plugin
+#        https://gitlab.example.com/group/dsh-plugins
+#
+# Optional curated metadata (category, labels, zh/en title & description) can be configured in `overrides.json`.
+# 可选的分类、标签与中英文标题/简介补充请在 `overrides.json` 中配置。
+#
+# Community plugin discovery credited to dsh.so (https://dsh.so).
+# 以下精选社区插件的发现与筛选参考自 dsh.so 公开榜单，元数据由构建脚本直接从 npm 注册表实时拉取。
+
+# Workbench & UI / 工作台与界面
+dsh-better-sidebar
+
+# Developer & Context Tools / 开发与调试
+dsh-context
+
+# Search & Web Tools / 搜索与联网
+dsh-free-search
+
+# Memory & Productivity / 记忆与知识
+dsh-mnemon
+
+# Interactive Generative UI / 交互式界面渲染
+@changfenhuang/dsh-genui
+
+# Remote Access & Connectivity / 远程与互联
+ds-harness-remote

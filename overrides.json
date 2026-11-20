@@ -1,0 +1,115 @@
+{
+  "$comment": "Market metadata, bilingual categories/labels, and optional per-plugin overrides. Package names must match entries in plugins.txt (or packages discovered from Git repos).",
+  "title": {
+    "en": "Curated DSH Plugin Index",
+    "zh": "DSH 精选插件市场"
+  },
+  "description": {
+    "en": "A curated, format-1 compliant plugin index for DeepSeek Harness (DSH). Community discovery credited to dsh.so.",
+    "zh": "面向 DeepSeek Harness (DSH) 的精选 Format 1 插件索引，覆盖工作台、上下文洞察、联网搜索、长期记忆、交互式 UI 与远程访问。社区插件发现参考 dsh.so。"
+  },
+  "categories": {
+    "workbench": {
+      "title": {
+        "en": "Workbench",
+        "zh": "工作台"
+      }
+    },
+    "dev-tools": {
+      "title": {
+        "en": "Developer Tools",
+        "zh": "开发与调试"
+      }
+    },
+    "search": {
+      "title": {
+        "en": "Search & Web",
+        "zh": "搜索与联网"
+      }
+    },
+    "memory": {
+      "title": {
+        "en": "Memory & Knowledge",
+        "zh": "记忆与知识"
+      }
+    },
+    "ui": {
+      "title": {
+        "en": "UI & Visuals",
+        "zh": "界面与交互"
+      }
+    },
+    "connectivity": {
+      "title": {
+        "en": "Remote & Sync",
+        "zh": "远程与互联"
+      }
+    }
+  },
+  "labels": {
+    "curated": {
+      "title": {
+        "en": "Curated",
+        "zh": "精选推荐"
+      }
+    },
+    "verified": {
+      "title": {
+        "en": "Verified",
+        "zh": "安装已验证"
+      }
+    },
+    "dsh-0.2": {
+      "title": {
+        "en": "DSH 0.2 Ready",
+        "zh": "适配 DSH 0.2"
+      }
+    }
+  },
+  "plugins": {
+    "dsh-better-sidebar": {
+      "category": "workbench",
+      "labels": ["curated", "verified", "dsh-0.2"]
+    },
+    "dsh-context": {
+      "category": "dev-tools",
+      "labels": ["curated", "verified", "dsh-0.2"]
+    },
+    "dsh-free-search": {
+      "category": "search",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "DSH Free Search",
+        "zh": "免费联网搜索 (dsh-free-search)"
+      },
+      "description": {
+        "en": "Multi-engine web search and fetch plugin for DeepSeek Harness with zero-config free backends (DuckDuckGo, Bing, etc.), smart routing, and fallback priority.",
+        "zh": "面向 DeepSeek Harness 的多引擎免费联网搜索与抓取插件，开箱支持 DuckDuckGo、Bing 等免密钥后端，内置智能路由、语言池与故障自动降级。"
+      }
+    },
+    "dsh-mnemon": {
+      "category": "memory",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "Mnemon Memory (dsh-mnemon)",
+        "zh": "可组合记忆 (dsh-mnemon)"
+      }
+    },
+    "@changfenhuang/dsh-genui": {
+      "category": "ui",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "GenUI (dsh-genui)",
+        "zh": "交互式渲染 (dsh-genui)"
+      },
+      "description": {
+        "en": "Render interactive UI components inline in assistant replies via dsh-ui code fences — charts, forms, quizzes, Mermaid diagrams, and 3D scenes with action callbacks to the model.",
+        "zh": "通过 dsh-ui 代码围栏在助手回复中内联渲染图表、表单、测验、Mermaid 流程图与 3D 场景等交互式 UI，并支持将用户操作事件回传给模型。"
+      }
+    },
+    "ds-harness-remote": {
+      "category": "connectivity",
+      "labels": ["curated", "verified", "dsh-0.2"]
+    }
+  }
+}
