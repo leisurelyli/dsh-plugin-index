@@ -32,6 +32,12 @@
         "en": "Office & Docs",
         "zh": "办公与文档"
       }
+    },
+    "ui": {
+      "title": {
+        "en": "Design & Themes",
+        "zh": "设计与主题"
+      }
     }
   },
   "labels": {
@@ -93,6 +99,30 @@
       "description": {
         "en": "Integrated Univer spreadsheets & documents workspace with bundled gateway and viewer: inline previews, live floating windows, and session-end review actions.",
         "zh": "集成 Univer 表格与文档协同套件，内置预览网关与查看器：支持对话内联预览、悬浮协作窗口与会话结束审阅操作。"
+      }
+    },
+    "@momasiku/dsh-pilot": {
+      "category": "browser",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "Desktop Pilot",
+        "zh": "桌面自动化 (Pilot)"
+      },
+      "description": {
+        "en": "Windows desktop automation (Computer Use): operate native desktop apps such as CAD, WPS, browsers, and WeChat via vision and input control.",
+        "zh": "Windows 桌面自动化：为电脑装上视觉与键鼠操作能力，支持自动操作 CAD、WPS、浏览器、微信等各类桌面软件。"
+      }
+    },
+    "dsh-design-studio": {
+      "category": "ui",
+      "labels": ["curated", "verified", "dsh-0.2"]
+    },
+    "dsh-claude-style": {
+      "category": "ui",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "description": {
+        "en": "Claude Code Desktop theme for the web GUI — ivory and warm-black canvases, clay accent, Claude-style model picker, permission segments, and account drawer.",
+        "zh": "复刻 Claude Code Desktop 的视觉主题插件——象牙白与暖黑双画布、陶烬橙强调色、Claude 风格模型选择器、权限分段与账户抽屉。"
       }
     }
   }
