@@ -1126,7 +1126,7 @@ export async function runBuild(argv = process.argv.slice(2)) {
 
   const index = {
     format: 1,
-    title: overrides.title ?? { en: 'Curated DSH Plugin Index', zh: 'DSH 精选插件市场' },
+    title: overrides.title ?? { en: 'Mindeck Curated Plugins', zh: 'Mindeck 精选插件市场' },
     ...(overrides.description !== undefined ? { description: overrides.description } : {}),
     ...(Object.keys(metadata).length > 0 ? { metadata } : {}),
     plugins,
