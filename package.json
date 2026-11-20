@@ -12,6 +12,8 @@
     "build:cn": "node scripts/build-index.mjs --registry https://registry.npmmirror.com/ --no-record-registry",
     "validate": "node scripts/validate-index.mjs",
     "serve": "node scripts/serve.mjs",
+    "publish:oss": "node scripts/publish-oss.mjs",
+    "publish:oss:dry": "node scripts/publish-oss.mjs --dry-run",
     "test": "node --test tests/index.test.mjs"
   },
   "license": "MIT"

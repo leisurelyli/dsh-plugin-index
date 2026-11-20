@@ -17,12 +17,13 @@
 ├── scripts/
 │   ├── build-index.mjs          # Format 1 索引与静态目录生成器
 │   ├── validate-index.mjs       # 独立 Format 1 规范校验工具
+│   ├── publish-oss.mjs          # 零依赖阿里云 OSS 发布与公网匿名零重定向校验脚本
 │   ├── serve.mjs                # 零重定向本地 HTTP 预览服务（默认 127.0.0.1:4173）
 │   └── lib/                     # 零依赖核心模块（semver / tar / format1 / html-catalog）
 ├── tests/
 │   └── index.test.mjs           # node:test 自动化测试套件
 ├── .github/workflows/
-│   └── publish.yml              # GitHub Pages 定时更新与自动部署工作流
+│   └── publish.yml              # 阿里云 OSS 定时更新与自动发布工作流
 └── site/                        # 构建产物（由 `npm run build` 生成）
     ├── index.json               # 供 DSH Discover 直接订阅的 Format 1 索引
     ├── index.html               # 可视化插件目录页（支持一键复制索引 URL）
@@ -126,24 +127,34 @@ node scripts/build-index.mjs \
 
 ## 发布与托管
 
-### 方式一：GitHub Pages（推荐，已内置 CI）
+### 方式一：阿里云 OSS（默认方案，已内置零依赖发布脚本与 CI）
 
-1. 将本仓库推送至 GitHub，默认分支设为 `main`；
-2. 进入仓库 **Settings → Pages**，将 **Source** 设为 **GitHub Actions**；
-3. 每次推送到 `main`、手动触发或每日定时（UTC 03:30），[.github/workflows/publish.yml](.github/workflows/publish.yml) 会自动执行 `npm run build` + `npm test` 并将 `site/` 部署到 GitHub Pages；
-4. 最终索引地址为 `https://<username>.github.io/<repo>/index.json`。
+默认发布至 `mindeck-desktop-releases`（`cn-hangzhou`）Bucket 的 `plugin-market/` 前缀下：
 
-### 方式二：Cloudflare Pages
+- **DSH 索引直链**：`https://mindeck-desktop-releases.oss-cn-hangzhou.aliyuncs.com/plugin-market/index.json`
+- **外链图标目录**：`https://mindeck-desktop-releases.oss-cn-hangzhou.aliyuncs.com/plugin-market/icons/*`（`Cache-Control: public, max-age=31536000, immutable`）
+- **发布顺序保证**：先校验 Format 1，再上传所有 `icons/*`（内容哈希去重跳过未变文件），再上传 `index.html`，最后上传 `index.json`，并执行匿名公网 `redirect: 'manual'` 零重定向 HTTP 200 + SHA-256 端到端验收。
 
-- 绑定仓库后配置：
-  - Build command：`npm run build && npm test`
-  - Build output directory：`site`
-  - 环境变量：`NODE_VERSION=24`
+本地预览上传计划与手动发布：
 
-### 方式三：阿里云 OSS + CDN
+```bash
+# 仅校验并打印上传计划（无需凭据）
+npm run publish:oss:dry
 
-- 执行 `npm run build && npm test` 后，将 `site/` 目录同步上传到 OSS Bucket（如 `ossutil cp -rf site/ oss://<bucket>/dsh-market/ --update`）；
-- 确保 `index.json` 与 `icons/*` 直接返回 **HTTP 200（无 301/302 重定向）**，响应头包含 `Content-Type: application/json; charset=utf-8` 与 `Access-Control-Allow-Origin: *`。
+# 手动发布（需配置 ALIYUN_OSS_ACCESS_KEY_ID / ALIYUN_OSS_ACCESS_KEY_SECRET）
+npm run publish:oss
+```
+
+GitHub Actions 自动每日刷新：
+
+1. 在仓库 **Settings → Secrets and variables → Actions** 中配置 Secrets：`ALIYUN_OSS_ACCESS_KEY_ID`、`ALIYUN_OSS_ACCESS_KEY_SECRET`；
+2. （可选）配置 Variables：`MINDECK_OSS_BUCKET`（默认 `mindeck-desktop-releases`）、`MINDECK_OSS_REGION`（默认 `cn-hangzhou`）、`DSH_INDEX_OSS_PREFIX`（默认 `plugin-market`）、`DSH_INDEX_PUBLIC_BASE_URL`（如绑定了自定义域名或 CDN）；
+3. 每次推送到 `main`、手动触发或每日定时（UTC 03:30 / 北京时间 11:30），[.github/workflows/publish.yml](.github/workflows/publish.yml) 会自动重建、测试并发布到阿里云 OSS。
+
+### 方式二：Cloudflare Pages / GitHub Pages
+
+- 构建命令：`npm run build && npm test`
+- 输出目录：`site`（Node.js 24），确保 `index.json` 返回 HTTP 200 且无重定向。
 
 ---
 

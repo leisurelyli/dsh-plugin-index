@@ -11,6 +11,12 @@ import {
 } from '../scripts/lib/format1.mjs'
 import { deriveDshRange, isExactSemver, isValidRange, rcompareSemver, satisfiesRange } from '../scripts/lib/semver.mjs'
 import { createStaticServer } from '../scripts/serve.mjs'
+import {
+  encodeOssKey,
+  planSiteUploads,
+  publishPluginIndexToOss,
+  signOssRequest,
+} from '../scripts/publish-oss.mjs'
 import { validateIndexFile } from '../scripts/validate-index.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -205,5 +211,105 @@ describe('Local preview server (scripts/serve.mjs)', () => {
     } finally {
       await new Promise((resolveClose) => server.close(resolveClose))
     }
+  })
+})
+
+describe('Aliyun OSS publisher (scripts/publish-oss.mjs)', () => {
+  it('plans icons before index.html and index.json last, and computes deterministic OSS V1 signatures', () => {
+    const plan = planSiteUploads(SITE_DIR, 'plugin-market')
+    assert.ok(plan.length >= 2, 'expected at least index.html and index.json')
+    assert.equal(plan.at(-1).objectKey, 'plugin-market/index.json')
+    assert.equal(plan.at(-1).contentType, 'application/json; charset=utf-8')
+    const iconItems = plan.filter((i) => i.relPath.startsWith('icons/'))
+    for (const icon of iconItems) {
+      assert.equal(icon.immutable, true)
+      assert.ok(plan.indexOf(icon) < plan.length - 1, 'icons must upload before index.json')
+    }
+    assert.equal(encodeOssKey('/plugin-market/icons/a b.png'), 'plugin-market/icons/a%20b.png')
+    const auth = signOssRequest({
+      method: 'PUT',
+      bucket: 'mindeck-desktop-releases',
+      objectKey: 'plugin-market/index.json',
+      contentType: 'application/json; charset=utf-8',
+      date: 'Fri, 20 Nov 2026 08:00:00 GMT',
+      headers: { 'x-oss-meta-sha256': 'abc' },
+      accessKeyId: 'TEST_KEY',
+      accessKeySecret: 'TEST_SECRET',
+    })
+    assert.match(auth, /^OSS TEST_KEY:[A-Za-z0-9+/=]+$/u)
+  })
+
+  it('supports --dry-run without credentials and verifies upload order + zero-redirect public verification', async () => {
+    const dryLogs = []
+    const dry = await publishPluginIndexToOss({
+      siteDir: SITE_DIR,
+      dryRun: true,
+      log: (line) => dryLogs.push(line),
+    })
+    assert.equal(dry.dryRun, true)
+    assert.equal(
+      dry.indexUrl,
+      'https://mindeck-desktop-releases.oss-cn-hangzhou.aliyuncs.com/plugin-market/index.json',
+    )
+    assert.equal(dry.plannedKeys.at(-1), 'plugin-market/index.json')
+
+    // Simulated end-to-end OSS publish + anonymous public verification
+    const store = new Map()
+    const putOrder = []
+    const mockFetch = async (url, init = {}) => {
+      const method = (init.method ?? 'GET').toUpperCase()
+      const key = new URL(url).pathname.replace(/^\/+/u, '')
+      if (method === 'PUT') {
+        putOrder.push(key)
+        store.set(key, {
+          bytes: Buffer.from(init.body),
+          contentType: init.headers['Content-Type'] ?? '',
+          sha256: init.headers['x-oss-meta-sha256'] ?? '',
+        })
+        return new Response(null, { status: 200 })
+      }
+      if (method === 'HEAD') {
+        const entry = store.get(key)
+        if (!entry) return new Response(null, { status: 404 })
+        return new Response(null, {
+          status: 200,
+          headers: {
+            'content-length': String(entry.bytes.length),
+            'content-type': entry.contentType,
+            'x-oss-meta-sha256': entry.sha256,
+          },
+        })
+      }
+      if (method === 'GET') {
+        const entry = store.get(key)
+        if (!entry) return new Response('not found', { status: 404 })
+        return new Response(entry.bytes, {
+          status: 200,
+          headers: { 'content-type': entry.contentType },
+        })
+      }
+      return new Response(null, { status: 405 })
+    }
+
+    const res = await publishPluginIndexToOss({
+      siteDir: SITE_DIR,
+      accessKeyId: 'TEST_KEY',
+      accessKeySecret: 'TEST_SECRET',
+      fetchImpl: mockFetch,
+      log: () => {},
+    })
+    assert.equal(res.dryRun, false)
+    assert.equal(putOrder.at(-1), 'plugin-market/index.json', 'index.json must be PUT last')
+    assert.ok(putOrder.length >= 2)
+
+    // Second publish should skip unchanged immutable icons
+    const res2 = await publishPluginIndexToOss({
+      siteDir: SITE_DIR,
+      accessKeyId: 'TEST_KEY',
+      accessKeySecret: 'TEST_SECRET',
+      fetchImpl: mockFetch,
+      log: () => {},
+    })
+    assert.ok(res2.skippedKeys.some((k) => k.startsWith('plugin-market/icons/')))
   })
 })
