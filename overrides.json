@@ -5,44 +5,14 @@
     "zh": "Mindeck Official"
   },
   "description": {
-    "en": "Official curated plugins for Mindeck covering workbench, context insights, web search, memory, interactive UI, and remote access.",
-    "zh": "Mindeck 官方维护的插件索引，覆盖工作台、上下文洞察、联网搜索、长期记忆、交互式 UI 与远程访问。"
+    "en": "Official curated plugins for Mindeck.",
+    "zh": "Mindeck 官方维护的插件索引。"
   },
   "categories": {
     "workbench": {
       "title": {
         "en": "Workbench",
         "zh": "工作台"
-      }
-    },
-    "dev-tools": {
-      "title": {
-        "en": "Developer Tools",
-        "zh": "开发与调试"
-      }
-    },
-    "search": {
-      "title": {
-        "en": "Search & Web",
-        "zh": "搜索与联网"
-      }
-    },
-    "memory": {
-      "title": {
-        "en": "Memory & Knowledge",
-        "zh": "记忆与知识"
-      }
-    },
-    "ui": {
-      "title": {
-        "en": "UI & Visuals",
-        "zh": "界面与交互"
-      }
-    },
-    "connectivity": {
-      "title": {
-        "en": "Remote & Sync",
-        "zh": "远程与互联"
       }
     }
   },
@@ -69,46 +39,6 @@
   "plugins": {
     "dsh-better-sidebar": {
       "category": "workbench",
-      "labels": ["curated", "verified", "dsh-0.2"]
-    },
-    "dsh-context": {
-      "category": "dev-tools",
-      "labels": ["curated", "verified", "dsh-0.2"]
-    },
-    "dsh-free-search": {
-      "category": "search",
-      "labels": ["curated", "verified", "dsh-0.2"],
-      "title": {
-        "en": "Free Web Search",
-        "zh": "免费联网搜索 (dsh-free-search)"
-      },
-      "description": {
-        "en": "Multi-engine web search and fetch plugin for Mindeck with zero-config free backends (DuckDuckGo, Bing, etc.), smart routing, and fallback priority.",
-        "zh": "面向 Mindeck 的多引擎免费联网搜索与抓取插件，开箱支持 DuckDuckGo、Bing 等免密钥后端，内置智能路由、语言池与故障自动降级。"
-      }
-    },
-    "dsh-mnemon": {
-      "category": "memory",
-      "labels": ["curated", "verified", "dsh-0.2"],
-      "title": {
-        "en": "Mnemon Memory (dsh-mnemon)",
-        "zh": "可组合记忆 (dsh-mnemon)"
-      }
-    },
-    "@changfenhuang/dsh-genui": {
-      "category": "ui",
-      "labels": ["curated", "verified", "dsh-0.2"],
-      "title": {
-        "en": "GenUI (dsh-genui)",
-        "zh": "交互式渲染 (dsh-genui)"
-      },
-      "description": {
-        "en": "Render interactive UI components inline in assistant replies via dsh-ui code fences — charts, forms, quizzes, Mermaid diagrams, and 3D scenes with action callbacks to the model.",
-        "zh": "通过 dsh-ui 代码围栏在助手回复中内联渲染图表、表单、测验、Mermaid 流程图与 3D 场景等交互式 UI，并支持将用户操作事件回传给模型。"
-      }
-    },
-    "ds-harness-remote": {
-      "category": "connectivity",
       "labels": ["curated", "verified", "dsh-0.2"]
     }
   }

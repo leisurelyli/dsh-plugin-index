@@ -24,18 +24,3 @@
 
 # Workbench & UI / 工作台与界面
 dsh-better-sidebar
-
-# Developer & Context Tools / 开发与调试
-dsh-context
-
-# Search & Web Tools / 搜索与联网
-dsh-free-search
-
-# Memory & Productivity / 记忆与知识
-dsh-mnemon
-
-# Interactive Generative UI / 交互式界面渲染
-@changfenhuang/dsh-genui
-
-# Remote Access & Connectivity / 远程与互联
-ds-harness-remote

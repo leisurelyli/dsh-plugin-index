@@ -30,11 +30,11 @@ describe('Generated site/index.json (DSH Format 1)', () => {
     const { raw, parsed } = validateIndexFile(INDEX_PATH, 'https://example.invalid/dsh-plugin-index/index.json')
 
     assert.equal(parsed.format, 1)
-    assert.ok(parsed.plugins.length >= 5, `expected at least 5 curated plugins, got ${parsed.plugins.length}`)
+    assert.ok(parsed.plugins.length >= 1, `expected at least 1 curated plugin, got ${parsed.plugins.length}`)
     assert.equal(typeof parsed.title, 'object')
     assert.ok(parsed.title.en && parsed.title.en.trim().length > 0, 'root title.en is required')
     assert.ok(parsed.title.zh && parsed.title.zh.trim().length > 0, 'root title.zh should be present')
-    assert.ok(Object.keys(parsed.metadata.categories).length >= 5, 'categories should be declared')
+    assert.ok(Object.keys(parsed.metadata.categories).length >= 1, 'categories should be declared')
     assert.ok(Object.keys(parsed.metadata.labels).length >= 2, 'labels should be declared')
     assert.ok(raw.plugins.length === parsed.plugins.length)
   })
@@ -195,7 +195,7 @@ describe('Local preview server (scripts/serve.mjs)', () => {
       assert.ok(jsonRes.headers.get('content-type')?.includes('application/json'))
       assert.equal(jsonRes.headers.get('access-control-allow-origin'), '*')
       const parsed = parseMarketIndex(await jsonRes.json(), `${base}/index.json`)
-      assert.ok(parsed.plugins.length >= 5)
+      assert.ok(parsed.plugins.length >= 1)
 
       // Verify any relative icons resolve directly with HTTP 200 and zero redirects
       for (const p of parsed.plugins) {
@@ -302,7 +302,8 @@ describe('Aliyun OSS publisher (scripts/publish-oss.mjs)', () => {
     assert.equal(putOrder.at(-1), 'plugin-market/index.json', 'index.json must be PUT last')
     assert.ok(putOrder.length >= 2)
 
-    // Second publish should skip unchanged immutable icons
+    // Second publish should skip unchanged immutable icons when external icons exist
+    const hasExternalIcons = dry.plannedKeys.some((k) => k.startsWith('plugin-market/icons/'))
     const res2 = await publishPluginIndexToOss({
       siteDir: SITE_DIR,
       accessKeyId: 'TEST_KEY',
@@ -310,6 +311,10 @@ describe('Aliyun OSS publisher (scripts/publish-oss.mjs)', () => {
       fetchImpl: mockFetch,
       log: () => {},
     })
-    assert.ok(res2.skippedKeys.some((k) => k.startsWith('plugin-market/icons/')))
+    if (hasExternalIcons) {
+      assert.ok(res2.skippedKeys.some((k) => k.startsWith('plugin-market/icons/')))
+    } else {
+      assert.equal(res2.skippedKeys.length, 0)
+    }
   })
 })
