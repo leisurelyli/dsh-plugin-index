@@ -24,3 +24,6 @@
 
 # Workbench & UI / 工作台与界面
 dsh-better-sidebar
+
+# Content & Media / 内容创作
+dsh-plugin-gzh-studio

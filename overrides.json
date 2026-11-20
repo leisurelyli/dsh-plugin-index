@@ -14,6 +14,12 @@
         "en": "Workbench",
         "zh": "工作台"
       }
+    },
+    "content": {
+      "title": {
+        "en": "Content & Media",
+        "zh": "内容创作"
+      }
     }
   },
   "labels": {
@@ -40,6 +46,18 @@
     "dsh-better-sidebar": {
       "category": "workbench",
       "labels": ["curated", "verified", "dsh-0.2"]
+    },
+    "dsh-plugin-gzh-studio": {
+      "category": "content",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "GZH Studio",
+        "zh": "新媒体内容工作台 (GZH Studio)"
+      },
+      "description": {
+        "en": "New-media content workbench: compliance checks across 21 content types, per-slide image generation with version history, mobile preview, WeChat Official Account draft push, and video preview.",
+        "zh": "新媒体内容工作台：21 条内容类型的合规检查、逐张出图与版本留存、手机宽度预览、推公众号草稿与视频成片预览。"
+      }
     }
   }
 }
