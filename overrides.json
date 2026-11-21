@@ -101,6 +101,18 @@
         "zh": "集成 Univer 表格与文档协同套件，内置预览网关与查看器：支持对话内联预览、悬浮协作窗口与会话结束审阅操作。"
       }
     },
+    "@huoweifang/dsh-mindmap": {
+      "category": "office",
+      "labels": ["curated", "verified", "dsh-0.2"],
+      "title": {
+        "en": "Mind Map",
+        "zh": "思维导图 (Mind Map)"
+      },
+      "description": {
+        "en": "Outliner and mind-map plugin for DeepSeek Harness: edit one document as a nested outline or a live mind map, with local autosave, backups, and Markdown/OPML import and export.",
+        "zh": "大纲笔记与实时思维导图插件：同一份文档可在嵌套大纲与交互式脑图视图间实时切换，支持本地自动保存、备份与 Markdown/OPML 导入导出。"
+      }
+    },
     "@momasiku/dsh-pilot": {
       "category": "browser",
       "labels": ["curated", "verified", "dsh-0.2"],

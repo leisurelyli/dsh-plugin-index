@@ -34,6 +34,7 @@ dsh-ego-browser
 
 # Office & Docs / 办公与文档
 dsh-univer-office
+@huoweifang/dsh-mindmap
 
 # Design & Themes / 设计与主题
 dsh-design-studio
