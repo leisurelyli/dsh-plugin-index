@@ -39,3 +39,4 @@ dsh-univer-office
 # Design & Themes / 设计与主题
 dsh-design-studio
 dsh-claude-style
+dsh-islands-ui

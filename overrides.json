@@ -136,6 +136,10 @@
         "en": "Claude Code Desktop theme for the web GUI — ivory and warm-black canvases, clay accent, Claude-style model picker, permission segments, and account drawer.",
         "zh": "复刻 Claude Code Desktop 的视觉主题插件——象牙白与暖黑双画布、陶烬橙强调色、Claude 风格模型选择器、权限分段与账户抽屉。"
       }
+    },
+    "dsh-islands-ui": {
+      "category": "ui",
+      "labels": ["curated", "verified", "dsh-0.2"]
     }
   }
 }
